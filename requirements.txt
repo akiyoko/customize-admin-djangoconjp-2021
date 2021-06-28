@@ -1,0 +1,9 @@
+Django==3.2.*
+Pillow==8.2.*
+# django-debug-toolbar==3.2.*
+# django-extensions==3.1.*
+# django-import-export==2.5.*
+lxml==4.6.*
+selenium==3.141.*
+# See your own Chrome version and https://pypi.org/project/chromedriver-binary/#history
+chromedriver-binary==91.*
