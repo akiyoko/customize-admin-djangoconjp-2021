@@ -133,17 +133,3 @@ class Book(models.Model):
     def get_absolute_url(self):
         # TODO
         return reverse('admin:shop_book_change', args=[self.id])
-
-
-class BookStock(models.Model):
-    """本の在庫モデル"""
-
-    class Meta:
-        db_table = 'stock'
-        verbose_name = verbose_name_plural = '在庫'
-
-    book = models.OneToOneField(Book, verbose_name='本', on_delete=models.CASCADE)
-    quantity = models.IntegerField('在庫数', default=0)
-
-    def __str__(self):
-        return self.book.title

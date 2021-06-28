@@ -1,6 +1,5 @@
 from django import forms
 from django.forms.widgets import MultiWidget, TextInput
-from tinymce.widgets import AdminTinyMCE
 
 
 class PostalCodeWidget(MultiWidget):
@@ -69,16 +68,6 @@ class PublisherAdminForm(forms.ModelForm):
 
 
 class BookAdminForm(forms.ModelForm):
-    class Meta:
-        labels = {
-            'title': '書籍名',
-            'image': '書影',
-        }
-        widgets = {
-            # 'publish_date': forms.widgets.SelectDateWidget(),
-            'description': AdminTinyMCE(),
-        }
-
     def clean_title(self):
         value = self.cleaned_data['title']
         if 'Java' in value:
