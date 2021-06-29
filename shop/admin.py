@@ -13,9 +13,7 @@ class BookStockInline(admin.TabularInline):
 class BookAdmin(admin.ModelAdmin):
     # class Media:
     #     css = {
-    #         'all': (
-    #             'admin/css/changelists_book.css',
-    #         )
+    #         'all': ('admin/css/book.css',)
     #     }
 
     ###############################
