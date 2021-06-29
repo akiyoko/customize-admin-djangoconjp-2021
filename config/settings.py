@@ -131,19 +131,3 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-# if DEBUG:
-#     def show_toolbar(request):
-#         return True
-#
-#
-#     INSTALLED_APPS += (
-#         'debug_toolbar',
-#     )
-#     MIDDLEWARE += (
-#         'debug_toolbar.middleware.DebugToolbarMiddleware',
-#     )
-#     DEBUG_TOOLBAR_CONFIG = {
-#         'SHOW_TOOLBAR_CALLBACK': show_toolbar,
-#     }
