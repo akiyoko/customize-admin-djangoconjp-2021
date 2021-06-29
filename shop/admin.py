@@ -27,54 +27,51 @@ class BookAdmin(admin.ModelAdmin):
     # モデル一覧画面のカスタマイズ
     ###############################
     # 画面表示フィールド
-    list_display = ('id', 'title', 'format_price', 'size', 'publish_date')
+    list_display = ('id', 'title', 'price', 'size')
 
-    @admin.display(
-        description='価格',
-        ordering='price',
-    )
-    def format_price(self, obj):
-        """価格フィールドのフォーマットを変更する"""
-        if obj.price is not None:
-            return '{:,d} 円'.format(obj.price)
-
-    # 初期表示時のソート
-    ordering = ('id',)
+    # @admin.display(
+    #     description='価格',
+    #     ordering='price',
+    # )
+    # def format_price(self, obj):
+    #     """価格フィールドのフォーマットを変更する"""
+    #     if obj.price is not None:
+    #         return f'{obj.price:,d} 円'
 
     # 簡易検索
-    search_fields = ('title', 'price', 'publisher__name', 'authors__name')
+    # search_fields = ('title', 'authors__name')
 
     # 絞り込み（フィルタ）
-    list_filter = ('size', 'price', 'publish_date', 'publisher', 'authors')
+    list_filter = ('size', 'price', 'publisher')
 
     # ページネーション
-    list_per_page = 10
-    list_max_show_all = 1000
+    # list_per_page = 10
+    # list_max_show_all = 1000
 
     # アクション一覧
     # resource_class = BookResource
-    actions = ['download_as_csv', 'publish_today']
+    # actions = ['download_as_csv', 'publish_today']
 
-    def download_as_csv(self, request, queryset):
-        """選択されたレコードのCSVダウンロードをおこなう"""
-        meta = self.model._meta
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename={}.csv'.format(meta)
-        writer = csv.writer(response)
-        field_names = [field.name for field in meta.fields]
-        writer.writerow(field_names)
-        for obj in queryset:
-            writer.writerow([getattr(obj, field) for field in field_names])
-        return response
+    # def download_as_csv(self, request, queryset):
+    #     """選択されたレコードのCSVダウンロードをおこなう"""
+    #     meta = self.model._meta
+    #     response = HttpResponse(content_type='text/csv')
+    #     response['Content-Disposition'] = 'attachment; filename={}.csv'.format(meta)
+    #     writer = csv.writer(response)
+    #     field_names = [field.name for field in meta.fields]
+    #     writer.writerow(field_names)
+    #     for obj in queryset:
+    #         writer.writerow([getattr(obj, field) for field in field_names])
+    #     return response
+    #
+    # download_as_csv.short_description = 'CSVダウンロード'
 
-    download_as_csv.short_description = 'CSVダウンロード'
-
-    def publish_today(self, request, queryset):
-        """選択されたレコードの出版日を今日に更新する"""
-        queryset.update(publish_date=timezone.localdate())
-
-    publish_today.short_description = '出版日を今日に更新'
-    publish_today.allowed_permissions = ('change',)
+    # def publish_today(self, request, queryset):
+    #     """選択されたレコードの出版日を今日に更新する"""
+    #     queryset.update(publish_date=timezone.localdate())
+    #
+    # publish_today.short_description = '出版日を今日に更新'
+    # publish_today.allowed_permissions = ('change',)
 
     ###############################
     # モデル追加・変更画面のカスタマイズ
@@ -96,7 +93,7 @@ class BookAdmin(admin.ModelAdmin):
     # }
 
     # フォーム
-    form = BookAdminForm
+    # form = BookAdminForm
 
     # インライン表示
     # inlines = [
@@ -106,11 +103,11 @@ class BookAdmin(admin.ModelAdmin):
     ###############################
     # その他のカスタマイズ
     ###############################
-    def save_model(self, request, obj, form, change):
-        """モデル保存前に処理を追加する"""
-        if not change:
-            obj.created_by = request.user
-        super().save_model(request, obj, form, change)
+    # def save_model(self, request, obj, form, change):
+    #     """モデル保存前に処理を追加する"""
+    #     if not change:
+    #         obj.created_by = request.user
+    #     super().save_model(request, obj, form, change)
 
 
 class PublisherAdmin(admin.ModelAdmin):
@@ -140,8 +137,8 @@ class PublisherAdmin(admin.ModelAdmin):
     ]
 
 
-# admin.site.register(Book, BookAdmin)
-admin.site.register(Book)
+admin.site.register(Book, BookAdmin)
+# admin.site.register(Book)
 admin.site.register(Author)
 # admin.site.register(Publisher, PublisherAdmin)
 admin.site.register(Publisher)
