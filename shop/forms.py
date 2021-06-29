@@ -68,14 +68,8 @@ class PublisherAdminForm(forms.ModelForm):
 
 
 class BookAdminForm(forms.ModelForm):
-    def clean_title(self):
-        value = self.cleaned_data['title']
-        if 'Java' in value:
-            raise forms.ValidationError("タイトルには「Java」を含めないでください。")
+    def clean_price(self):
+        value = self.cleaned_data.get('price', 0)
+        if value > 10000:
+            raise forms.ValidationError("価格は1万円を超えないでください。")
         return value
-
-    def clean(self):
-        title = self.cleaned_data.get('title')
-        price = self.cleaned_data.get('price')
-        if title and '薄い本' in title and price and price > 3000:
-            raise forms.ValidationError("薄い本は3,000円を超えてはいけません。")
