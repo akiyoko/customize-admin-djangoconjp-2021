@@ -33,21 +33,37 @@ class TestAdminSenario(AdminSeleniumTestCase):
     def test_book_crud(self):
         """BookモデルのCRUD検証（システム管理者の場合）"""
 
-        # 1. ログイン画面に遷移
-        self.selenium.get(self.live_server_url + '/admin/')
-        self.wait_page_loaded()
-
-        # 2. システム管理者でログイン
+        # 1. システム管理者でログイン
         self.admin_login(self.superuser.username, 'pass12345')
         self.assert_title('サイト管理')
         # ホーム画面でスクリーンショットを撮る（1枚目）
         self.selenium.save_screenshot(f'{self.id()}-1.png')
 
-        # 3. ホーム画面で「本」リンクを押下
+        # 2. ホーム画面で「本」リンクを押下
         self.selenium.find_element_by_link_text('本').click()
         self.wait_page_loaded()
+        # モデル一覧画面が表示されていることを確認
         self.assert_title('変更する 本 を選択')
         # モデル一覧画面でスクリーンショットを撮る（2枚目）
         self.selenium.save_screenshot(f'{self.id()}-2.png')
+
+        # 3. モデル一覧画面で「本 を追加」ボタンを押下
+        self.selenium.find_element_by_link_text('本 を追加').click()
+        self.wait_page_loaded()
+        # モデル追加画面が表示されていることを確認
+        self.assert_title('本 を追加')
+
+        # 4. モデル追加画面で項目を入力して「保存」ボタンを押下
+        self.selenium.find_element_by_name('title').send_keys('Book 1')
+        self.selenium.find_element_by_name('price').send_keys('1000')
+        self.selenium.find_element_by_name('publish_date').send_keys('2021-07-03')
+        # モデル追加画面でスクリーンショットを撮る（3枚目）
+        self.selenium.save_screenshot(f'{self.id()}-3.png')
+        self.selenium.find_element_by_xpath('//input[@value="{}"]'.format('保存')).click()
+        self.wait_page_loaded()
+        # モデル一覧画面が表示されていることを確認
+        self.assert_title('変更する 本 を選択')
+        # モデル一覧画面でスクリーンショットを撮る（4枚目）
+        self.selenium.save_screenshot(f'{self.id()}-4.png')
 
         # (以下略)
